@@ -1,32 +1,58 @@
 const genHTML = require("./utils/generateHTML");
 const fs = require("fs");
 const inquirer = require("inquirer");
-const questions = [
+let numberOfWorkers;
+const questionNumberOfWorkers = [
     {
         type: "input",
-        name: "name",
-        message: "What is your name?"
-    },
-    {
-        type: "input",
-        name: "age",
-        message: "How old are you?"
+        name: "numberOfWorkers",
+        message: "How many workers in your team?"
     }
 ];
+
+const managersQuestionGroup = async (inputs = []) => {
+    const prompts = [
+      {
+        type: "input",
+        name: "manageValue",
+        message: "Enter some manage input:"
+      },
+      {
+        type: "confirm",
+        name: "again",
+        message: "Enter another input?",
+        default: true
+      }
+    ];
+  
+    const { again, ...answers } = await inquirer.prompt(prompts);
+    const newInputs = [...inputs, answers];
+    return again ? collectInputs(newInputs) : newInputs;
+};
 
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, (e)=>{console.log(e)});
 };
 
-// TODO: Create a function to initialize app
-function init() {
+function initNumberOfWorkers() {
     inquirer
-        .prompt(questions)
+        .prompt(questionNumberOfWorkers)
         .then((answers) => {
-            const text = genHTML(answers)
-            writeToFile("index.html", text);
+            numberOfWorkers = answers.numberOfWorkers;
+            collectInputs();
         });
 };
 
-// Function call to initialize app
-init();
+const collectInputs = async () => {
+    const result = [];
+
+    for (let i = 0; i < numberOfWorkers; i++) {
+        const managers = await managersQuestionGroup();
+        // const text = genHTML(result);
+        // writeToFile("index.html", text);
+
+        console.log(managers);
+    };
+};
+
+initNumberOfWorkers();

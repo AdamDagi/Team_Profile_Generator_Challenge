@@ -1,18 +1,27 @@
 function generateCard(data) {
-    let cardsHTML;
+    let cardsHTML = "";
+    console.log(data)
     data.forEach((card) => {
-        const objectCard = card[0];
+        let classCard;
+        if (card.type == "Manager") {
+            classCard = "managerCard";
+        }
+        if (card.type == "Engineer") {
+            classCard = "engineerCard";
+        }
+        if (card.type == "Intern") {
+            classCard = "internCard";
+        }
         const cardHTML = `
-            <div class="cardConteiner">
-                <div class="card">
-                    <div class="cardHeader">${objectCard}</div>
-                    <div class="cardLine">${objectCard}</div>
-                    <div class="cardLine">${objectCard}</div>
-                    <div class="cardLine">${objectCard}</div>
-                    <div class="cardLine">${objectCard}</div>
-                    <div class="cardLineLast">${objectCard}</div>
+            
+                <div class="card ${classCard}">
+                    <div class="cardHeader">${card.name}</div>
+                    <div class="cardLine">${card.type}</div>
+                    <div class="cardLine">${card.id}</div>
+                    <div class="cardLine">${card.email}</div>
+                    <div class="cardLine">${card.officeNumber}</div>
                 </div>
-            </div>
+            
         `;
         cardsHTML = cardsHTML + cardHTML;
     });
@@ -43,7 +52,9 @@ function generateHTML(data) {
             </header>
         
             <main class="main">
+                <div class="cardConteiner">
                 ${cards}
+                </div>
             </main>
         </body> 
         </html>

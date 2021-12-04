@@ -1,29 +1,6 @@
 const genHTML = require("./utils/generateHTML");
 const fs = require("fs");
 const inquirer = require("inquirer");
-let numberOfWorkers;
-const managerQue = [
-    {
-        type: "input",
-        name: "managerName",
-        message: "What is the team manager's name?"
-    },
-    {
-        type: "input",
-        name: "managerId",
-        message: "What is the team manager's id?"
-    },
-    {
-        type: "input",
-        name: "managerEmail",
-        message: "What is the team manager's email?"
-    },
-    {
-        type: "input",
-        name: "managerOfficeNumber",
-        message: "What is the team manager's office number?"
-    }
-];
 
 const workerType = [
     {
@@ -35,94 +12,124 @@ const workerType = [
     }
 ];
 
-const engineerQue = [
+const managerQue = [
     {
         type: "input",
-        name: "engineerName",
+        name: "name",
         message: "What is the team manager's name?"
     },
     {
         type: "input",
-        name: "engineerId",
+        name: "id",
         message: "What is the team manager's id?"
     },
     {
         type: "input",
-        name: "engineerEmail",
+        name: "email",
         message: "What is the team manager's email?"
     },
     {
         type: "input",
-        name: "engineerOfficeNumber",
+        name: "officeNumber",
         message: "What is the team manager's office number?"
+    }
+];
+
+const engineerQue = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the team Engineer's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the team Engineer's id?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the team Engineer's email?"
+    },
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the team Engineer's office number?"
     }
 ];
 
 const internQue = [
     {
         type: "input",
-        name: "internName",
-        message: "What is the team manager's name?"
+        name: "name",
+        message: "What is the team Intern's name?"
     },
     {
         type: "input",
-        name: "internId",
-        message: "What is the team manager's id?"
+        name: "id",
+        message: "What is the team Intern's id?"
     },
     {
         type: "input",
-        name: "internEmail",
-        message: "What is the team manager's email?"
+        name: "email",
+        message: "What is the team Intern's email?"
     },
     {
         type: "input",
-        name: "internOfficeNumber",
-        message: "What is the team manager's office number?"
+        name: "officeNumber",
+        message: "What is the team Intern's office number?"
     }
 ];
 
-const managersQuestionGroup = async (inputs = []) => {
-    const prompts = [
-      {
-        type: "input",
-        name: "manageValue",
-        message: "Enter some manage input:"
-      },
-      {
-        type: "confirm",
-        name: "again",
-        message: "Enter another input?",
-        default: true
-      }
-    ];
-  
-    const { again, ...answers } = await inquirer.prompt(prompts);
-    const newInputs = [...inputs, answers];
-    return again ? collectInputs(newInputs) : newInputs;
+const addTypeOfSpecialist = async (inputs = []) => {
+    
+    let mergeAnswers;
+    const answersWorkerType = await inquirer.prompt(workerType);
+    if (answersWorkerType.workerType == "No more") {
+        if (inputs.length > 0) {
+            return inputs;
+        }
+        return;
+    }
+    if (answersWorkerType.workerType == "Manager") {
+        const answersManagerQue = await inquirer.prompt(managerQue);
+        answersManagerQue.type = "Manager";
+        mergeAnswers = [...inputs, answersManagerQue];
+        return addTypeOfSpecialist(mergeAnswers);
+    }
+    if (answersWorkerType.workerType == "Engineer") {
+        const answersEngineerQue = await inquirer.prompt(engineerQue);
+        answersEngineerQue.type = "Engineer";
+        mergeAnswers = [...inputs, answersEngineerQue];
+        return addTypeOfSpecialist(mergeAnswers);
+    }
+    if (answersWorkerType.workerType == "Intern") {
+        const answersInternQue = await inquirer.prompt(internQue);
+        answersInternQue.type = "Intern";
+        mergeAnswers = [...inputs, answersInternQue];
+        return addTypeOfSpecialist(mergeAnswers);
+    }
 };
 
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (e)=>{console.log(e)});
+function writeToFile(fileName, dataManager, dataWorkers) {
+    let html;
+    console.log(dataWorkers);
+    if (dataWorkers) {
+        html = genHTML([dataManager, ...dataWorkers]);
+    } else {
+        html = genHTML([dataManager]);
+    }
+    fs.writeFile(fileName, html, (e)=>{console.log(e)});
 };
 
-function start() {
-    inquirer
-        .prompt(managerQue)
-        .then((answersManager) => {
-            // collectInputs();
-        });
+async function start() {
+    const answersManager = await inquirer.prompt(managerQue);
+    answersManager.type = "Manager";
+    const answersWorkers = await addTypeOfSpecialist();
+    
+    writeToFile("index.html", answersManager, answersWorkers);
 };
 
-// const collectInputs = async () => {
-//     const result = [];
-
-//     for (let i = 0; i < numberOfWorkers; i++) {
-//         const managers = await managersQuestionGroup();
-//         // const text = genHTML(result);
-//         // writeToFile("index.html", text);
-
-//         console.log(managers);
-//     };
-// };
-
-start();
+(async() => {
+    await start();
+})();

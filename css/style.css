@@ -29,13 +29,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(39, 52, 58, 0.8);
+    background-color: rgba(65, 93, 105, 0.8);
     height: 120px;
     width: 100%;
 }
 
 .headerTitle {
-    color: rgb(148, 22, 43);
+    color: rgb(231, 55, 72);
     font-size: 80px;
     justify-content: center;
     align-items: center;
@@ -44,7 +44,11 @@ body {
 }
 
 .main {
-    background-color: rgb(67, 83, 90);
+    /* background-color: rgb(126, 169, 190); */
+    background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-02/1613515788_16-p-fon-dlya-prezentatsii-na-temu-izobreteniya-21.jpg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
     width: 100%;
     height: 80%;
     display: flex;
@@ -57,30 +61,62 @@ body {
     width: 100%;
     height: auto;
     display: flex;
+    justify-content: space-around;
+    overflow: auto;
+    flex-wrap: wrap;
 }
 
 .card {
     border: 1.5px solid rgb(192, 232, 241);
-    border-radius: 25px;
+    /* border-radius: 25px; */
     margin: 20px;
     width: 300px;
-    height: 45%;
+    height: 30%;
     display: block;
+    padding: 3px;
+    text-align: center;
 }
 
-.cardHeader {
-    border-bottom: 1.5px solid rgb(192, 232, 241);
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    /* border-collapse: collapse; */
     width: 100%;
-    height: 23%;
-    background-color: rgb(63, 81, 117);
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    height: 100%;
+}
+  
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+tr {
+    background-color: #7db2ee;
+}
+  
+#customers tr:hover {background-color: rgb(134, 218, 240);}
+  
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: white;
 }
 
-.cardLine {
-    border-bottom: 1.5px solid rgb(192, 232, 241);
-    width: 100%;
-    height: 15%;
-    background-color: rgb(76, 103, 156);
-    margin: 0px;
+#customers, .lastLine {
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+th {
+    height: 40%;
+}
+
+.managerCard th {
+    background-color: #d3b450;
+}
+.engineerCard th {
+    background-color: #84af3e;
+}
+.internCard th {
+    background-color: #507ed3;
 }

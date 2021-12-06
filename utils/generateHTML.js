@@ -1,27 +1,46 @@
 function generateCard(data) {
+    let emogi;
+    let classCard;
+    let lastvalue;
     let cardsHTML = "";
     console.log(data)
     data.forEach((card) => {
-        let classCard;
         if (card.type == "Manager") {
+            emogi = String.fromCodePoint(0x1F451);
             classCard = "managerCard";
+            lastvalue = `Office Number: ${card.officeNumber}`;
         }
         if (card.type == "Engineer") {
+            emogi = String.fromCodePoint(0x1F472);
             classCard = "engineerCard";
+            lastvalue = `GitHub: ${card.github}`;
         }
         if (card.type == "Intern") {
+            emogi = String.fromCodePoint(0x1F393);
             classCard = "internCard";
+            lastvalue = `School: ${card.school}`;
         }
+        
         const cardHTML = `
-            
                 <div class="card ${classCard}">
-                    <div class="cardHeader">${card.name}</div>
-                    <div class="cardLine">${card.type}</div>
-                    <div class="cardLine">${card.id}</div>
-                    <div class="cardLine">${card.email}</div>
-                    <div class="cardLine">${card.officeNumber}</div>
+                    <table id="customers">
+                        <tr>
+                            <th>${card.name}</th>
+                        </tr>
+                        <tr>
+                            <td>${emogi} ${card.type}</td>
+                        </tr>
+                        <tr>
+                            <td>ID: ${card.id}</td>
+                        </tr>
+                        <tr>
+                            <td>Email: ${card.email}</td>
+                        </tr>
+                        <tr class="lastLine">
+                            <td>${lastvalue}</td>
+                        </tr>
+                    </table>
                 </div>
-            
         `;
         cardsHTML = cardsHTML + cardHTML;
     });

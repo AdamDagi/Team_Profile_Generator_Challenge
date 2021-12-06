@@ -53,8 +53,8 @@ const engineerQue = [
     },
     {
         type: "input",
-        name: "officeNumber",
-        message: "What is the team Engineer's office number?"
+        name: "github",
+        message: "What is the team Engineer's GitHub?"
     }
 ];
 
@@ -76,8 +76,8 @@ const internQue = [
     },
     {
         type: "input",
-        name: "officeNumber",
-        message: "What is the team Intern's office number?"
+        name: "school",
+        message: "What is the team Intern's School?"
     }
 ];
 

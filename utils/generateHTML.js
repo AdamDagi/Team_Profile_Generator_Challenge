@@ -13,7 +13,7 @@ function generateCard(data) {
         if (card.type == "Engineer") {
             emogi = String.fromCodePoint(0x1F472);
             classCard = "engineerCard";
-            lastvalue = `GitHub: ${card.github}`;
+            lastvalue = `GitHub: <a href="https://github.com/${card.github}" class="fa fa-github" title="GitHub">${card.github}</a>`;
         }
         if (card.type == "Intern") {
             emogi = String.fromCodePoint(0x1F393);
@@ -34,7 +34,7 @@ function generateCard(data) {
                             <td>ID: ${card.id}</td>
                         </tr>
                         <tr>
-                            <td>Email: ${card.email}</td>
+                            <td>Email: <a href="mailto:${card.email}" class="fa fa-google" title="Gmail">${card.email}</a></td>
                         </tr>
                         <tr class="lastLine">
                             <td>${lastvalue}</td>
